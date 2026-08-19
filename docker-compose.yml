@@ -18,7 +18,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://employee-service-db:5432/employeedb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://department-service-db:5432/departmentdb
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       JWT_SECRET: ${JWT_SECRET}
