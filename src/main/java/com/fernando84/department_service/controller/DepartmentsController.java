@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fernando84.department_service.model.Department;
+import com.fernando84.department_service.dto.DepartmentCreateRequest;
 import com.fernando84.department_service.dto.DepartmentDTO;
+import com.fernando84.department_service.service.DepartmentCreateService;
 import com.fernando84.department_service.service.DepartmentService;
 
 @RestController
@@ -23,9 +25,11 @@ import com.fernando84.department_service.service.DepartmentService;
 public class DepartmentsController {
 
     private DepartmentService departmentService;
+    private DepartmentCreateService departmentCreateService;
 
-    public DepartmentsController(DepartmentService ds) {
+    public DepartmentsController(DepartmentService ds, DepartmentCreateService dcs) {
         this.departmentService = ds;
+        this.departmentCreateService = dcs;
     }
 
     @GetMapping
@@ -40,10 +44,11 @@ public class DepartmentsController {
         return departmentService.getDepartmentById(id);
     }
 
-    @GetMapping("/admin-test")
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public void adminTest() {
-        System.out.println("This is a message only for ADMINS!");
+    public ResponseEntity<Department> createDepartment(@RequestBody DepartmentCreateRequest request) {
+        Department created = departmentCreateService.createDepartment(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
 }
